@@ -1,16 +1,13 @@
 [project]
 name = "dfw-forecasting"
 version = "0.1.0"
-description = "Add your description here"
+description = "Project exploring data engineering concepts as well as forecasting models"
 readme = "README.md"
 authors = [
-    { name = "lwinger04", email = "logan.winger@utexas.edu" }
+    { name = "lwinger04" }
 ]
 requires-python = ">=3.12"
 dependencies = []
-
-[project.scripts]
-dfw-forecasting = "dfw_forecasting:main"
 
 [build-system]
 requires = ["uv_build>=0.13.5,<0.14.0"]
