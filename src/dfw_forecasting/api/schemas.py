@@ -1,8 +1,9 @@
-from typing import Literal, Self
+
 from datetime import date
+from typing import Literal, Self
 from pydantic import BaseModel, Field, model_validator
 
-ModelTypes = Literal["seasonal_naive", "sarima", "lightgbm", "lstm", "tft"]
+ModelName = Literal["seasonal_naive", "sarima", "lightgbm", "lstm", "tft"]
 
 class ForecastPoint(BaseModel):
     month: date = Field(description="Month for which the forecast is made")
@@ -20,7 +21,7 @@ class ForecastPoint(BaseModel):
 
 class ForecastResponse(BaseModel):
     route: str = Field(description="Route for which the forecast is made")
-    model: ModelTypes= Field(description="Model used for forecasting")
+    model: ModelName= Field(description="Model used for forecasting")
     horizon: int = Field(ge=1, le=12, description="Number of months for which the forecast is made")
     points: list[ForecastPoint] = Field(max_length=12, description="List of forecasted demand values for each month in the horizon")
     
