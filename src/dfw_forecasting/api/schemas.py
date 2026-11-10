@@ -1,12 +1,21 @@
 
 from datetime import date
-from typing import Literal, Self
-from pydantic import BaseModel, Field, model_validator
+from typing import Literal, Self, Annotated
+from pydantic import BaseModel, Field, model_validator, AfterValidator
 
 ModelName = Literal["seasonal_naive", "sarima", "lightgbm", "lstm", "tft"]
 
+def verify_first_of_month(v: date) -> date:
+    if v.day != 1:
+        raise ValueError(f"The date must be the first day of the month. Received: {v}")
+    return v
+
+
+# Reusable type with the after-validator applied
+FirstOfMonthDate = Annotated[date, AfterValidator(verify_first_of_month)]
+
 class ForecastPoint(BaseModel):
-    month: date = Field(description="Month for which the forecast is made")
+    month: FirstOfMonthDate = Field(description="Month for which the forecast is made")
     forecast: float = Field(ge=0, description="Forecasted demand for the month")
     lower: float = Field(ge=0, description="Lower bound on the demand forecast(95% PI)")
     upper: float = Field(ge=0, description="Upper bound on the demand forecast(95% PI)")
